@@ -99,6 +99,7 @@ func Listen() {
 	r.HandleFunc("GET "+config.Webroot+"view/", middleWareFunc(viewHandler))
 
 	r.Handle("GET "+config.Webroot+"search", middleWareFunc(index))
+	r.Handle("GET "+config.Webroot+"inbox", middleWareFunc(index))
 	// Exact-match the webroot; stdlib "/" is always a subtree so we guard inside.
 	r.HandleFunc("GET "+config.Webroot, func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != config.Webroot {
@@ -421,14 +422,14 @@ func index(w http.ResponseWriter, r *http.Request) {
 	<meta name="referrer" content="no-referrer">
 	<meta name="robots" content="noindex, nofollow, noarchive">
 	<link rel="icon" href="{{ .Webroot }}favicon.svg">
-	<title>Mailpit</title>
+	<title>MailCrate</title>
 	<link rel=stylesheet href="{{ .Webroot }}dist/app.css?{{ .Version }}">
 </head>
 
 <body class="h-100">
 	<div class="container-fluid h-100 d-flex flex-column" id="app" data-webroot="{{ .Webroot }}" data-version="{{ .Version }}">
 		<noscript class="alert alert-warning position-absolute top-50 start-50 translate-middle">
-			You need a browser with JavaScript enabled to use Mailpit
+			You need a browser with JavaScript enabled to use MailCrate
 		</noscript>
 	</div>
 

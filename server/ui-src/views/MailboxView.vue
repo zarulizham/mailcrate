@@ -43,7 +43,12 @@ export default {
 
 	mounted() {
 		mailbox.searching = false;
-		this.apiURI = this.resolve(`/api/v1/messages`);
+		if (mailbox.inboxEmail && mailbox.inboxEmail !== "*") {
+			this.apiURI =
+				this.resolve(`/api/v1/search`) + "?query=" + encodeURIComponent(`to:${mailbox.inboxEmail}`);
+		} else {
+			this.apiURI = this.resolve(`/api/v1/messages`);
+		}
 		this.loadMailbox();
 
 		// subscribe to events
@@ -111,6 +116,22 @@ export default {
 
 		// handler for websocket new messages
 		handleWSNew(data) {
+			if (mailbox.inboxEmail && mailbox.inboxEmail !== "*") {
+				// Only push messages addressed to the current inbox
+				const inbox = mailbox.inboxEmail.toLowerCase();
+				const isForInbox =
+					(data.To && data.To.some((a) => a.Address.toLowerCase() === inbox)) ||
+					(data.Cc && data.Cc.some((a) => a.Address.toLowerCase() === inbox)) ||
+					(data.Bcc && data.Bcc.some((a) => a.Address.toLowerCase() === inbox));
+				if (isForInbox && pagination.start < 1) {
+					mailbox.messages.unshift(data);
+					if (mailbox.messages.length > pagination.limit) {
+						mailbox.messages.pop();
+					}
+				}
+				return;
+			}
+
 			if (pagination.start < 1) {
 				// push results directly into first page
 				mailbox.messages.unshift(data);
@@ -179,8 +200,8 @@ export default {
 	<div class="navbar navbar-expand-lg row flex-shrink-0 bg-primary text-white d-print-none" data-bs-theme="dark">
 		<div class="col-xl-2 col-md-3 col-auto pe-0">
 			<RouterLink to="/" class="navbar-brand text-white me-0" @click="reloadMailbox">
-				<img :src="resolve('/mailpit.svg')" alt="Mailpit" />
-				<span class="ms-2 d-none d-sm-inline">Mailpit</span>
+				<img :src="resolve('/mailpit.svg')" alt="MailCrate" />
+				<span class="ms-2 d-none d-sm-inline">MailCrate</span>
 			</RouterLink>
 		</div>
 		<div class="col col-md-4k col-lg-5 col-xl-6">
@@ -198,6 +219,16 @@ export default {
 					<i class="bi bi-list"></i>
 				</button>
 			</div>
+			<RouterLink
+				v-if="mailbox.inboxEmail"
+				to="/inbox"
+				class="btn btn-outline-light btn-sm me-2 d-none d-md-inline-flex align-items-center"
+				title="Change inbox"
+			>
+				<i class="bi bi-envelope me-1"></i>
+				<span class="text-truncate" style="max-width: 160px">{{ mailbox.inboxEmail }}</span>
+				<i class="bi bi-pencil-square ms-1"></i>
+			</RouterLink>
 			<Pagination :total="mailbox.total" />
 		</div>
 	</div>
@@ -210,7 +241,7 @@ export default {
 		aria-labelledby="offcanvasLabel"
 	>
 		<div class="offcanvas-header">
-			<h5 id="offcanvasLabel" class="offcanvas-title">Mailpit</h5>
+			<h5 id="offcanvasLabel" class="offcanvas-title">MailCrate</h5>
 			<button
 				type="button"
 				class="btn-close"

@@ -73,7 +73,7 @@ export default {
 				class="btn btn-sm btn-outline-secondary float-end"
 				data-bs-toggle="modal"
 				data-bs-target="#SettingsModal"
-				title="Mailpit UI settings"
+				title="MailCrate UI settings"
 			>
 				<i class="bi bi-gear-fill"></i>
 			</button>
@@ -103,7 +103,7 @@ export default {
 				<div v-if="mailbox.appInfo.RuntimeStats" class="modal-content">
 					<div class="modal-header">
 						<h5 id="AppInfoModalLabel" class="modal-title">
-							Mailpit
+							MailCrate
 							<code>({{ mailbox.appInfo.Version }})</code>
 							<span v-if="isEdgeBuild" class="badge bg-info text-dark ms-2">edge build</span>
 						</h5>
@@ -133,10 +133,10 @@ export default {
 												"
 											>
 												<template v-if="isEdgeBuild || mailbox.appInfo.Version == 'dev'">
-													Latest stable Mailpit ({{ mailbox.appInfo.LatestVersion }}) release
+													Latest stable MailCrate ({{ mailbox.appInfo.LatestVersion }}) release
 												</template>
 												<template v-else>
-													A new version of Mailpit ({{ mailbox.appInfo.LatestVersion }}) is
+													A new version of MailCrate ({{ mailbox.appInfo.LatestVersion }}) is
 													available
 												</template>
 											</a>
@@ -203,7 +203,7 @@ export default {
 										<table class="table table-sm table-borderless mb-0">
 											<tbody>
 												<tr>
-													<td>Mailpit up since</td>
+													<td>MailCrate up since</td>
 													<td>
 														{{ secondsToRelative(mailbox.appInfo.RuntimeStats.Uptime) }}
 													</td>
@@ -267,10 +267,10 @@ export default {
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<p class="h4">Get browser notifications when Mailpit receives new messages?</p>
+						<p class="h4">Get browser notifications when MailCrate receives new messages?</p>
 						<p>
 							Note that your browser will ask you for confirmation when you click
-							<code>enable notifications</code>, and that you must have Mailpit open in a browser tab to
+							<code>enable notifications</code>, and that you must have MailCrate open in a browser tab to
 							be able to receive the notifications.
 						</p>
 					</div>

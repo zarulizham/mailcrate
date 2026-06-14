@@ -71,6 +71,17 @@ export default {
 			</div>
 		</div>
 
+		<div v-if="mailbox.inboxEmail" class="my-2 px-1">
+			<div class="d-flex align-items-center justify-content-between">
+				<small class="text-muted text-truncate me-2" style="max-width: 160px" :title="mailbox.inboxEmail">
+					<i class="bi bi-envelope-fill me-1 text-primary"></i>{{ mailbox.inboxEmail }}
+				</small>
+				<RouterLink to="/inbox" class="btn btn-sm btn-outline-secondary py-0 px-1" title="Change inbox">
+					<i class="bi bi-pencil-square"></i>
+				</RouterLink>
+			</div>
+		</div>
+
 		<div class="list-group my-2" :class="mailbox.uiConfig.Label ? 'mt-0' : ''">
 			<button class="list-group-item list-group-item-action active" @click="reloadInbox">
 				<i v-if="mailbox.connected" class="bi bi-envelope-fill me-1"></i>

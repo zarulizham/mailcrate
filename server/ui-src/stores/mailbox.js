@@ -35,6 +35,7 @@ export const mailbox = reactive({
 	appInfo: {}, // application information
 	uiConfig: {}, // configuration for UI
 	lastMessage: false, // return scrolling
+	inboxEmail: localStorage.getItem("inboxEmail") || "", // filtered inbox email address
 	defaultReleaseAddresses: storageToStringArray("defaultReleaseAddresses"), // default release addresses for released messages
 
 	// settings
@@ -128,6 +129,17 @@ watch(
 			localStorage.setItem("showAttachmentDetails", "1");
 		} else {
 			localStorage.removeItem("showAttachmentDetails");
+		}
+	},
+);
+
+watch(
+	() => mailbox.inboxEmail,
+	(v) => {
+		if (v) {
+			localStorage.setItem("inboxEmail", v);
+		} else {
+			localStorage.removeItem("inboxEmail");
 		}
 	},
 );
