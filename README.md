@@ -110,6 +110,15 @@ go build
 ```
 
 
+#### Github build
+
+```
+git tag v1.0.0
+git push origin v1.0.0
+gh release create v1.0.0 --title "v1.0.0" --notes "Inbox filter + fixes"
+```
+
+
 
 ## Usage
 
@@ -117,6 +126,13 @@ Run `mailpit -h` to see options. More information can be seen in [the docs](http
 
 If installed using homebrew, you may run `brew services start mailpit` to always run mailpit automatically.
 
+### Linux server
+```
+curl -L -o mailpit.tar.gz https://github.com/zarulizham/mailcrate/releases/download/v1.0.0/mailpit-linux-amd64.tar.gz
+tar xzf mailpit.tar.gz
+sudo mv mailpit /usr/local/bin/mailpit
+sudo systemctl restart mailpit
+```
 
 ### Testing Mailpit
 

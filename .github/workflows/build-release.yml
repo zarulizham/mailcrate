@@ -3,6 +3,8 @@ on:
     types: [created]
 
 name: Build & release
+permissions:
+  contents: write
 jobs:
   releases-matrix:
     name: Build
