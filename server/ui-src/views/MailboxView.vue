@@ -44,8 +44,9 @@ export default {
 	mounted() {
 		mailbox.searching = false;
 		if (mailbox.inboxEmail && mailbox.inboxEmail !== "*") {
+			const field = mailbox.inboxFilterType === "from" ? "from" : "to";
 			this.apiURI =
-				this.resolve(`/api/v1/search`) + "?query=" + encodeURIComponent(`to:${mailbox.inboxEmail}`);
+				this.resolve(`/api/v1/search`) + "?query=" + encodeURIComponent(`${field}:${mailbox.inboxEmail}`);
 		} else {
 			this.apiURI = this.resolve(`/api/v1/messages`);
 		}
@@ -120,9 +121,9 @@ export default {
 				// Only push messages addressed to the current inbox
 				const inbox = mailbox.inboxEmail.toLowerCase();
 				const isForInbox =
-					(data.To && data.To.some((a) => a.Address.toLowerCase() === inbox)) ||
-					(data.Cc && data.Cc.some((a) => a.Address.toLowerCase() === inbox)) ||
-					(data.Bcc && data.Bcc.some((a) => a.Address.toLowerCase() === inbox));
+					mailbox.inboxFilterType === "from"
+						? data.From && data.From.Address.toLowerCase() === inbox
+						: data.To && data.To.some((a) => a.Address.toLowerCase() === inbox);
 				if (isForInbox && pagination.start < 1) {
 					mailbox.messages.unshift(data);
 					if (mailbox.messages.length > pagination.limit) {

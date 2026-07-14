@@ -11,6 +11,7 @@ export default {
 	data() {
 		return {
 			email: mailbox.inboxEmail || "",
+			filterType: mailbox.inboxFilterType || "to",
 			recentInboxes: [],
 			error: "",
 		};
@@ -52,6 +53,7 @@ export default {
 			}
 
 			mailbox.inboxEmail = trimmed;
+			mailbox.inboxFilterType = this.filterType;
 			this.$router.push("/");
 		},
 
@@ -67,7 +69,7 @@ export default {
 	<div
 		class="d-flex flex-column align-items-center justify-content-center min-vh-100"
 		data-bs-theme="dark"
-		style="background-color: #0d1117"
+		style="background-color: #2c3e50; margin-inline: calc(var(--bs-gutter-x, 1.5rem) * -0.5)"
 	>
 		<div class="mb-4 text-center">
 			<img :src="resolve('/mailpit.svg')" alt="MailCrate" height="52" />
@@ -93,6 +95,30 @@ export default {
 							autofocus
 						/>
 						<div v-if="error" class="invalid-feedback">{{ error }}</div>
+					</div>
+					<div class="mb-3">
+						<label class="form-label text-light">Match against</label>
+						<div class="btn-group w-100" role="group">
+							<input
+								id="filterTo"
+								v-model="filterType"
+								type="radio"
+								class="btn-check"
+								value="to"
+								autocomplete="off"
+							/>
+							<label class="btn btn-outline-light" for="filterTo">To (receiver)</label>
+
+							<input
+								id="filterFrom"
+								v-model="filterType"
+								type="radio"
+								class="btn-check"
+								value="from"
+								autocomplete="off"
+							/>
+							<label class="btn btn-outline-light" for="filterFrom">From</label>
+						</div>
 					</div>
 					<button type="submit" class="btn btn-primary w-100">
 						View Inbox

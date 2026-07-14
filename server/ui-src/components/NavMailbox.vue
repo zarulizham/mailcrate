@@ -75,6 +75,7 @@ export default {
 			<div class="d-flex align-items-center justify-content-between">
 				<small class="text-muted text-truncate me-2" style="max-width: 160px" :title="mailbox.inboxEmail">
 					<i class="bi bi-envelope-fill me-1 text-primary"></i>{{ mailbox.inboxEmail }}
+					<span v-if="mailbox.inboxFilterType === 'from'" class="text-secondary">(from)</span>
 				</small>
 				<RouterLink to="/inbox" class="btn btn-sm btn-outline-secondary py-0 px-1" title="Change inbox">
 					<i class="bi bi-pencil-square"></i>

@@ -97,6 +97,19 @@ See [Docker instructions](https://mailpit.axllent.org/docs/install/docker/) for 
 
 To build Mailpit from source, see [Building from source](https://mailpit.axllent.org/docs/install/source/).
 
+#### Linux
+
+```
+GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o mailpit-linux-amd64 .
+```
+
+#### MacOS
+
+```
+go build
+```
+
+
 
 ## Usage
 
