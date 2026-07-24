@@ -134,6 +134,32 @@ sudo mv mailpit /usr/local/bin/mailpit
 sudo systemctl restart mailpit
 ```
 
+### Running Mailpit
+```
+mkdir -p /var/lib/mailpit/
+nano /etc/systemd/system/mailpit.service
+```
+```
+[Unit]
+Description=Mailpit
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/usr/local/bin/mailpit --db-file /var/lib/mailpit/mailpit.db --smtp-auth-accept-any --smtp-auth-allow-insecure
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/mailpit
+
+[Install]
+WantedBy=multi-user.target
+```
+
 ### Testing Mailpit
 
 Please refer to [the documentation](https://mailpit.axllent.org/docs/install/testing/) on how to easily test email delivery to Mailpit.
